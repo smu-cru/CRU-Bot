@@ -4,7 +4,7 @@ dotenv.config();
 
 const notion = new Client({ auth: process.env.NOTION_API_KEY as string });
 
-const CreatePage = async (name: string, chatId: number) => {
+const CreatePage = async (name: string, chatId: number, schedule: string) => {
     const response = await notion.pages.create({
         "parent": {
             "type": "database_id",
@@ -22,10 +22,16 @@ const CreatePage = async (name: string, chatId: number) => {
             },
             "ID": {
                 "number": chatId
+            },
+            "Schedule": {
+                "rich_text": [{
+                    "text": {
+                        "content": schedule
+                    }
+                }]
             }
         }
     });
-    console.log(response);
 };
 
 export default CreatePage;

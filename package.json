@@ -5,7 +5,8 @@
   "main": "dist/app.js",
   "scripts": {
     "build": "tsc",
-    "start": "node app.js"
+    "start": "node app.js",
+    "mail": "node mailer_test.js"
   },
   "repository": {
     "type": "git",
@@ -25,7 +26,11 @@
   },
   "dependencies": {
     "@notionhq/client": "^2.1.1",
+    "@types/express": "^4.17.13",
+    "@types/node-cron": "^3.0.2",
+    "cloudmailin": "^0.0.3",
     "dotenv": "^16.0.1",
+    "express": "^4.18.1",
     "node-cron": "^3.0.2"
   }
 }

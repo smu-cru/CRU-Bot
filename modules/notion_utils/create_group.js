@@ -13,7 +13,7 @@ const { Client } = require('@notionhq/client');
 const dotenv = require('dotenv');
 dotenv.config();
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
-const CreatePage = (name, chatId) => __awaiter(void 0, void 0, void 0, function* () {
+const CreatePage = (name, chatId, schedule) => __awaiter(void 0, void 0, void 0, function* () {
     const response = yield notion.pages.create({
         "parent": {
             "type": "database_id",
@@ -31,6 +31,13 @@ const CreatePage = (name, chatId) => __awaiter(void 0, void 0, void 0, function*
             },
             "ID": {
                 "number": chatId
+            },
+            "Schedule": {
+                "rich_text": [{
+                        "text": {
+                            "content": schedule
+                        }
+                    }]
             }
         }
     });

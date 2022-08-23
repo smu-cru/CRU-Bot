@@ -16,6 +16,7 @@ bot.start((ctx) => {
 
 AttachCommands(bot);
 
+// bot.telegram.sendPoll()
 bot.launch();
 process.once('SIGINT', () => bot.stop('SIGINT'));
 process.once('SIGTERM', () => bot.stop('SIGTERM'));

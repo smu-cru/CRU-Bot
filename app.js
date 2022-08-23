@@ -18,6 +18,7 @@ bot.help((ctx) => {
     ctx.reply('Send /quit to stop the bot');
 });
 (0, index_1.default)(bot);
+// bot.telegram.sendPoll()
 bot.launch();
 process.once('SIGINT', () => bot.stop('SIGINT'));
 process.once('SIGTERM', () => bot.stop('SIGTERM'));

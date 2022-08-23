@@ -14,7 +14,7 @@ const SearchGroup = async (chatId: number) => {
             }
         }
     });
-    console.log(response);
+    // console.log(response);
     return response;
 };
 
