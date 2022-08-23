@@ -138,26 +138,22 @@ class SchedulePoll {
             ctx.reply("Scheduled polls already running!")
         }
         else if (group && chatID) {
-            if (group.running) {
-                var task = schedule(group.schedule, async () => {
-                    const chatId = group.id;
-                    ctx.telegram.sendPoll(
-                        chatId,
-                        this.pollOptions.question,
-                        this.pollOptions.options,
-                        this.pollOptions.extra
-                    );
-                });
-                task.start();
-                task.start();
-                this.currentTasks.set(chatID, task);
-                UpdateStatus(chatID, true);
-                ctx.reply("Scheduled polls started! ");
-                this.UpdateGroups();
-            }
-            else {
-                ctx.reply("There's something quite wrong.")
-            }
+            var task = schedule(group.schedule, async () => {
+                const chatId = group.id;
+                ctx.telegram.sendPoll(
+                    chatId,
+                    this.pollOptions.question,
+                    this.pollOptions.options,
+                    this.pollOptions.extra
+                );
+            });
+            task.start();
+            task.start();
+            this.currentTasks.set(chatID, task);
+            UpdateStatus(chatID, true);
+            ctx.reply("Scheduled polls started! ");
+            this.UpdateGroups();
+
             // this.currentTask = task;
         }
     }

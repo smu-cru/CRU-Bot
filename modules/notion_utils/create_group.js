@@ -41,6 +41,5 @@ const CreatePage = (name, chatId, schedule) => __awaiter(void 0, void 0, void 0,
             }
         }
     });
-    console.log(response);
 });
 exports.default = CreatePage;
