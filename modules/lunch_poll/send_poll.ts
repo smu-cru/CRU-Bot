@@ -9,7 +9,6 @@ const sendPollHandler = async (ctx: Context) => {
     }
     const result = await ctx.telegram.sendPoll(chatId, question, options, extra);
     console.log(result);
-    // ctx.reply("sendPoll is not implemented yet");
 }
 
 // module.exports = sendPollHandler;

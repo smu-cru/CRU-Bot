@@ -1,10 +1,15 @@
-import { Context, Telegraf, Markup } from 'telegraf';
-
+import { Telegraf } from 'telegraf';
 const dotenv = require('dotenv');
 import AttachCommands from './modules/index';
-// import { Update } from 'typegram'; const bot: Telegraf<Context<Update>> = new Telegraf(process.env.BOT_TOKEN as string);
+
 dotenv.config();
-const bot = new Telegraf(process.env.BOT_TOKEN as string);
+let bot: Telegraf;
+if (process.env.BOT_MODE == "dev") {
+    bot = new Telegraf(process.env.DEV_BOT_TOKEN as string);
+} else {
+    bot = new Telegraf(process.env.PROD_BOT_TOKEN as string);
+}
+process.env.TZ = 'Singapore'
 
 bot.start((ctx) => {
     ctx.reply('Hello ' + ctx.from.first_name + '!');

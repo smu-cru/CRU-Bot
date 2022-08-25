@@ -12,11 +12,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const { Client } = require('@notionhq/client');
 const dotenv = require('dotenv');
 dotenv.config();
+const database_id = process.env.GROUP_DATABASE_ID;
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
 const GetAllGroups = () => __awaiter(void 0, void 0, void 0, function* () {
     const groups = new Map;
     const response = yield notion.databases.query({
-        database_id: '5ded4c5f554045c0865fb3d466ed43d2'
+        database_id: database_id
     });
     const results = response["results"];
     let items = yield Promise.all(results.map((group) => __awaiter(void 0, void 0, void 0, function* () {

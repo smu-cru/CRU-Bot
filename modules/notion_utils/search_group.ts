@@ -2,11 +2,12 @@ const { Client } = require('@notionhq/client');
 const dotenv = require('dotenv');
 
 dotenv.config();
+const database_id = process.env.GROUP_DATABASE_ID;
 const notion = new Client({ auth: process.env.NOTION_API_KEY as string });
 
 const SearchGroup = async (chatId: number) => {
     const response = await notion.databases.query({
-        database_id: '5ded4c5f554045c0865fb3d466ed43d2',
+        database_id: database_id,
         filter: {
             property: 'ID',
             number: {

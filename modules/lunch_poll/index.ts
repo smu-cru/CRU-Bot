@@ -2,6 +2,7 @@ import { Telegraf } from "telegraf";
 import SendPoll from "./send_poll";
 import SchedulePoll from "./schedule_poll";
 import RegisterGroup from "./register_group";
+import getTimeHandler from "./get_time";
 
 const attachLunchPollCommands = (bot: Telegraf) => {
     const schedulePoll = new SchedulePoll.SchedulePoll();
@@ -13,6 +14,7 @@ const attachLunchPollCommands = (bot: Telegraf) => {
     bot.command('editScheduledPoll', schedulePoll.EditPollScheduleHandler);
     bot.command('showStatus', schedulePoll.ShowStatus);
     bot.command('registerGroup', RegisterGroup.registerGroupHandler);
+    bot.command('getTime', getTimeHandler);
 }
 
 // module.exports = attachLunchPollCommands;

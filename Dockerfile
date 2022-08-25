@@ -1,4 +1,4 @@
-FROM node:18
+FROM amd64/node:18
 WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install

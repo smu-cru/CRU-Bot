@@ -9,22 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const { Client } = require('@notionhq/client');
-const dotenv = require('dotenv');
-dotenv.config();
-const database_id = process.env.GROUP_DATABASE_ID;
-const notion = new Client({ auth: process.env.NOTION_API_KEY });
-const SearchGroup = (chatId) => __awaiter(void 0, void 0, void 0, function* () {
-    const response = yield notion.databases.query({
-        database_id: database_id,
-        filter: {
-            property: 'ID',
-            number: {
-                equals: chatId
-            }
-        }
-    });
-    // console.log(response);
-    return response;
+const getTimeHandler = (ctx) => __awaiter(void 0, void 0, void 0, function* () {
+    const now = new Date;
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    ctx.reply(`The time now is ${hours}:${minutes}.`);
 });
-exports.default = SearchGroup;
+exports.default = getTimeHandler;

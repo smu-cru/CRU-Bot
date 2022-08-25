@@ -4,6 +4,7 @@ const { Client } = require('@notionhq/client');
 const dotenv = require('dotenv');
 
 dotenv.config();
+const database_id = process.env.GROUP_DATABASE_ID;
 const notion = new Client({ auth: process.env.NOTION_API_KEY as string });
 export type groupInfo = {
     id: number,
@@ -15,7 +16,7 @@ export type groupInfo = {
 const GetAllGroups = async () => {
     const groups = new Map<number, string>
     const response = await notion.databases.query({
-        database_id: '5ded4c5f554045c0865fb3d466ed43d2'
+        database_id: database_id
     })
     const results: Array<any> = response["results"];
     let items = await Promise.all(results.map(async (group): Promise<groupInfo> => {
