@@ -1,1 +1,6 @@
-env_file: .env
+services:
+  bot:
+    container_name: cru_bot
+    image: ongkahyuan/cru-bot
+    env_file:
+      - .env
