@@ -7,14 +7,14 @@ import getTimeHandler from "./get_time";
 const attachLunchPollCommands = (bot: Telegraf) => {
     const schedulePoll = new SchedulePoll.SchedulePoll();
     schedulePoll.SetUpGroups(bot);
-    bot.command('sendPoll', SendPoll.sendPollHandler);
+    bot.command('send_poll', SendPoll.sendPollHandler);
     // bot.command('schedulePoll', SchedulePoll.schedulePollHandler);
-    bot.command('startScheduledPoll', schedulePoll.StartPollsHandler);
-    bot.command('stopScheduledPoll', schedulePoll.StopPollsHandler);
-    bot.command('editScheduledPoll', schedulePoll.EditPollScheduleHandler);
-    bot.command('showStatus', schedulePoll.ShowStatus);
-    bot.command('registerGroup', RegisterGroup.registerGroupHandler);
-    bot.command('getTime', getTimeHandler);
+    bot.command('start_scheduled_poll', schedulePoll.StartPollsHandler);
+    bot.command('stop_scheduled_poll', schedulePoll.StopPollsHandler);
+    bot.command('edit_scheduled_poll', schedulePoll.EditPollScheduleHandler);
+    bot.command('show_status', schedulePoll.ShowStatus);
+    bot.command('register_group', RegisterGroup.registerGroupHandler);
+    bot.command('get_time', getTimeHandler);
 }
 
 // module.exports = attachLunchPollCommands;
