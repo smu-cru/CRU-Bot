@@ -1,7 +1,6 @@
 import { Telegraf } from "telegraf";
 import SendPoll from "./send_poll";
 import SchedulePoll from "./schedule_poll";
-import RegisterGroup from "./register_group";
 import getTimeHandler from "./get_time";
 
 const attachLunchPollCommands = (bot: Telegraf) => {
@@ -13,7 +12,7 @@ const attachLunchPollCommands = (bot: Telegraf) => {
     bot.command('stop_scheduled_poll', schedulePoll.StopPollsHandler);
     bot.command('edit_scheduled_poll', schedulePoll.EditPollScheduleHandler);
     bot.command('show_status', schedulePoll.ShowStatus);
-    bot.command('register_group', RegisterGroup.registerGroupHandler);
+    bot.command('register_group', schedulePoll.registerGroupHandler);
     bot.command('get_time', getTimeHandler);
 }
 

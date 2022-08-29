@@ -57,8 +57,9 @@ class SchedulePoll {
             var _a;
             const chatId = ctx.chat.id;
             const chatType = (_a = ctx.chat) === null || _a === void 0 ? void 0 : _a.type;
-            if (chatType != "group") {
+            if (chatType != "group" && chatType != "supergroup") {
                 ctx.reply("Not a group");
+                console.log("Chat type: " + chatType);
             }
             else {
                 try {

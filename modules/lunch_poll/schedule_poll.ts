@@ -58,8 +58,9 @@ class SchedulePoll {
     registerGroupHandler = async (ctx: Context) => {
         const chatId = ctx.chat!.id;
         const chatType = ctx.chat?.type;
-        if (chatType != "group") {
+        if (chatType != "group" && chatType != "supergroup") {
             ctx.reply("Not a group")
+            console.log("Chat type: " + chatType)
         }
         else {
             try {

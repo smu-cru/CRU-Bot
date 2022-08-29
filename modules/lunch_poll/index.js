@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const send_poll_1 = __importDefault(require("./send_poll"));
 const schedule_poll_1 = __importDefault(require("./schedule_poll"));
-const register_group_1 = __importDefault(require("./register_group"));
 const get_time_1 = __importDefault(require("./get_time"));
 const attachLunchPollCommands = (bot) => {
     const schedulePoll = new schedule_poll_1.default.SchedulePoll();
@@ -16,7 +15,7 @@ const attachLunchPollCommands = (bot) => {
     bot.command('stop_scheduled_poll', schedulePoll.StopPollsHandler);
     bot.command('edit_scheduled_poll', schedulePoll.EditPollScheduleHandler);
     bot.command('show_status', schedulePoll.ShowStatus);
-    bot.command('register_group', register_group_1.default.registerGroupHandler);
+    bot.command('register_group', schedulePoll.registerGroupHandler);
     bot.command('get_time', get_time_1.default);
 };
 // module.exports = attachLunchPollCommands;
