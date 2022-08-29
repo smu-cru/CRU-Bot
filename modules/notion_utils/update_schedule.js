@@ -34,7 +34,7 @@ const UpdateSchedule = (chatID, schedule) => __awaiter(void 0, void 0, void 0, f
                 },
             },
         });
-        console.log(response);
+        // console.log(response);
     }
 });
 exports.default = UpdateSchedule;

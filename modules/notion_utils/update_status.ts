@@ -19,7 +19,7 @@ const UpdateStatus = async (chatID: number, status: boolean) => {
                 },
             },
         });
-        console.log(response);
+        // console.log(response);
     }
 
 };

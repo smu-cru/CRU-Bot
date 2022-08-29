@@ -30,6 +30,9 @@ const CreatePage = async (name: string, chatId: number, schedule: string) => {
                         "content": schedule
                     }
                 }]
+            },
+            "Production": {
+                "checkbox": process.env.BOT_TYPE == "prod"
             }
         }
     });

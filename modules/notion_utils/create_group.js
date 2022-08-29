@@ -39,6 +39,9 @@ const CreatePage = (name, chatId, schedule) => __awaiter(void 0, void 0, void 0,
                             "content": schedule
                         }
                     }]
+            },
+            "Production": {
+                "checkbox": process.env.BOT_TYPE == "prod"
             }
         }
     });

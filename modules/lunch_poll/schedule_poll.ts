@@ -7,6 +7,7 @@ import { groupInfo } from "../notion_utils/get_all_groups";
 import { schedule, ScheduledTask } from "node-cron";
 import UpdateStatus from "../notion_utils/update_status";
 import UpdateSchedule from "../notion_utils/update_schedule";
+import { group } from "console";
 
 class SchedulePoll {
     currentTasks: Map<number, ScheduledTask>;
@@ -83,8 +84,7 @@ class SchedulePoll {
                                 ctx.reply("Group already registered!");
                             }
                         } catch (error) {
-                            console.log(error);
-                            ctx.telegram.sendMessage(chatId, "Send valid cron format. See https://www.npmjs.com/package/node-cron for details.");
+                            this.SendFormatErrorMessage(chatId, ctx)
                         }
                     }
                 }
@@ -98,6 +98,7 @@ class SchedulePoll {
     EditPollScheduleHandler = async (ctx: Context) => {
         const chatId = ctx.chat!.id;
         const type = ctx.chat!.type;
+        const group = this.groups.find(group => group.id == chatId)
         if (type == "private") {
             ctx.reply("Schedule must be set in the group!")
         }
@@ -111,24 +112,47 @@ class SchedulePoll {
                         console.log(scheduleString);
                         try {
                             var task = schedule(scheduleString, async () => {
-                                console.log("Correct format")
+                                console.log("Correct format");
                             });
                             task.stop();
+                            if (group?.running) this.currentTasks.get(chatId)?.stop();
+                            if (group) group.schedule = scheduleString;
                             UpdateSchedule(chatId, scheduleString)
                             ctx.reply("Schedule updated successfully!")
+                            if (group?.running) {
+                                var task = schedule(group.schedule, async () => {
+                                    const chatId = group.id;
+                                    ctx.telegram.sendPoll(
+                                        chatId,
+                                        this.pollOptions.question,
+                                        this.pollOptions.options,
+                                        this.pollOptions.extra
+                                    );
+                                });
+                                task.start();
+                                this.currentTasks.set(chatId, task)
+                                ctx.reply("Task restarted!")
+                            }
                             this.UpdateGroups();
                         } catch (error) {
-                            console.log(error);
-                            ctx.telegram.sendMessage(chatId, "Send valid cron format. See https://www.npmjs.com/package/node-cron for details.");
+                            // console.log(error);
+                            // ctx.telegram.sendMessage(chatId, "Send valid cron format. See https://www.npmjs.com/package/node-cron for details.");
+                            this.SendFormatErrorMessage(chatId, ctx)
                         }
                     }
                 }
             }
             catch (error) {
-                console.log(error);
-                ctx.telegram.sendMessage(chatId, "Send valid cron format. See https://www.npmjs.com/package/node-cron for details.");
+                // ctx.telegram.sendMessage(chatId, "Send valid cron format. See https://www.npmjs.com/package/node-cron for details.");
+                this.SendFormatErrorMessage(chatId, ctx)
             }
         }
+    }
+
+    SendFormatErrorMessage = (chatId: number, ctx: Context) => {
+        ctx.telegram.sendMessage(chatId, "Send valid cron format. See https://www.npmjs.com/package/node-cron for details.");
+        const format = "*Format:*\n``` ┌────────────── second (optional)\n │ ┌──────────── minute\n │ │ ┌────────── hour\n │ │ │ ┌──────── day of month\n │ │ │ │ ┌────── month\n │ │ │ │ │ ┌──── day of week\n │ │ │ │ │ │\n │ │ │ │ │ │\n * * * * * * ```"
+        ctx.telegram.sendMessage(chatId, format, { parse_mode: "MarkdownV2" })
     }
 
     StartPollsHandler = async (ctx: Context) => {
@@ -147,7 +171,6 @@ class SchedulePoll {
                     this.pollOptions.extra
                 );
             });
-            task.start();
             task.start();
             this.currentTasks.set(chatID, task);
             UpdateStatus(chatID, true);

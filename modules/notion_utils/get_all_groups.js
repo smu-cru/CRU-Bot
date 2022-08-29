@@ -15,7 +15,7 @@ dotenv.config();
 const database_id = process.env.GROUP_DATABASE_ID;
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
 const GetAllGroups = () => __awaiter(void 0, void 0, void 0, function* () {
-    const groups = new Map;
+    const botType = process.env.BOT_MODE;
     const response = yield notion.databases.query({
         database_id: database_id
     });
@@ -27,25 +27,32 @@ const GetAllGroups = () => __awaiter(void 0, void 0, void 0, function* () {
         const nameProperty = group["properties"]["Name"]["id"];
         const scheduleProperty = group["properties"]["Schedule"]["id"];
         const runningProperty = group["properties"]["Running"]["id"];
+        const productionProperty = group["properties"]["Production"]["id"];
         // get properties
         const idResponse = yield notion.pages.properties.retrieve({ page_id: pageID, property_id: idProperty });
         const nameResponse = yield notion.pages.properties.retrieve({ page_id: pageID, property_id: nameProperty });
         const scheduleResponse = yield notion.pages.properties.retrieve({ page_id: pageID, property_id: scheduleProperty });
         const runningResponse = yield notion.pages.properties.retrieve({ page_id: pageID, property_id: runningProperty });
+        const productionResponse = yield notion.pages.properties.retrieve({ page_id: pageID, property_id: productionProperty });
         // extract property values
         const groupID = idResponse["number"];
         const name = nameResponse["results"][0]["title"]["plain_text"];
         const schedule = scheduleResponse["results"][0]["rich_text"]["plain_text"];
         const running = runningResponse["checkbox"];
+        const production = productionResponse["checkbox"];
         //set as an object and return
         const result = {
             id: groupID,
             name: name,
             schedule: schedule,
-            running: running
+            running: running,
+            production: production
         };
         return result;
     })));
-    return items;
+    const filteredResults = items.filter((group) => {
+        return group.production && botType == "prod" || !group.production && botType == "dev";
+    });
+    return filteredResults;
 });
 exports.default = GetAllGroups;

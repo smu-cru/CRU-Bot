@@ -84,8 +84,7 @@ class SchedulePoll {
                                 }
                             }
                             catch (error) {
-                                console.log(error);
-                                ctx.telegram.sendMessage(chatId, "Send valid cron format. See https://www.npmjs.com/package/node-cron for details.");
+                                this.SendFormatErrorMessage(chatId, ctx);
                             }
                         }
                     }
@@ -96,8 +95,10 @@ class SchedulePoll {
             }
         });
         this.EditPollScheduleHandler = (ctx) => __awaiter(this, void 0, void 0, function* () {
+            var _b;
             const chatId = ctx.chat.id;
             const type = ctx.chat.type;
+            const group = this.groups.find(group => group.id == chatId);
             if (type == "private") {
                 ctx.reply("Schedule must be set in the group!");
             }
@@ -114,26 +115,45 @@ class SchedulePoll {
                                     console.log("Correct format");
                                 }));
                                 task.stop();
+                                if (group === null || group === void 0 ? void 0 : group.running)
+                                    (_b = this.currentTasks.get(chatId)) === null || _b === void 0 ? void 0 : _b.stop();
+                                if (group)
+                                    group.schedule = scheduleString;
                                 (0, update_schedule_1.default)(chatId, scheduleString);
                                 ctx.reply("Schedule updated successfully!");
+                                if (group === null || group === void 0 ? void 0 : group.running) {
+                                    var task = (0, node_cron_1.schedule)(group.schedule, () => __awaiter(this, void 0, void 0, function* () {
+                                        const chatId = group.id;
+                                        ctx.telegram.sendPoll(chatId, this.pollOptions.question, this.pollOptions.options, this.pollOptions.extra);
+                                    }));
+                                    task.start();
+                                    this.currentTasks.set(chatId, task);
+                                    ctx.reply("Task restarted!");
+                                }
                                 this.UpdateGroups();
                             }
                             catch (error) {
-                                console.log(error);
-                                ctx.telegram.sendMessage(chatId, "Send valid cron format. See https://www.npmjs.com/package/node-cron for details.");
+                                // console.log(error);
+                                // ctx.telegram.sendMessage(chatId, "Send valid cron format. See https://www.npmjs.com/package/node-cron for details.");
+                                this.SendFormatErrorMessage(chatId, ctx);
                             }
                         }
                     }
                 }
                 catch (error) {
-                    console.log(error);
-                    ctx.telegram.sendMessage(chatId, "Send valid cron format. See https://www.npmjs.com/package/node-cron for details.");
+                    // ctx.telegram.sendMessage(chatId, "Send valid cron format. See https://www.npmjs.com/package/node-cron for details.");
+                    this.SendFormatErrorMessage(chatId, ctx);
                 }
             }
         });
+        this.SendFormatErrorMessage = (chatId, ctx) => {
+            ctx.telegram.sendMessage(chatId, "Send valid cron format. See https://www.npmjs.com/package/node-cron for details.");
+            const format = "*Format:*\n``` ┌────────────── second (optional)\n │ ┌──────────── minute\n │ │ ┌────────── hour\n │ │ │ ┌──────── day of month\n │ │ │ │ ┌────── month\n │ │ │ │ │ ┌──── day of week\n │ │ │ │ │ │\n │ │ │ │ │ │\n * * * * * * ```";
+            ctx.telegram.sendMessage(chatId, format, { parse_mode: "MarkdownV2" });
+        };
         this.StartPollsHandler = (ctx) => __awaiter(this, void 0, void 0, function* () {
-            var _b;
-            const chatID = (_b = ctx.chat) === null || _b === void 0 ? void 0 : _b.id;
+            var _c;
+            const chatID = (_c = ctx.chat) === null || _c === void 0 ? void 0 : _c.id;
             const group = this.groups.find(group => group.id == chatID);
             if (group === null || group === void 0 ? void 0 : group.running) {
                 ctx.reply("Scheduled polls already running!");
@@ -143,7 +163,6 @@ class SchedulePoll {
                     const chatId = group.id;
                     ctx.telegram.sendPoll(chatId, this.pollOptions.question, this.pollOptions.options, this.pollOptions.extra);
                 }));
-                task.start();
                 task.start();
                 this.currentTasks.set(chatID, task);
                 (0, update_status_1.default)(chatID, true);

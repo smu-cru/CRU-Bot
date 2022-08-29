@@ -22,7 +22,7 @@ const UpdateSchedule = async (chatID: number, schedule: string) => {
                 },
             },
         });
-        console.log(response);
+        // console.log(response);
     }
 
 };

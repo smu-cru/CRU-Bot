@@ -18,7 +18,6 @@ const sendPollHandler = (ctx) => __awaiter(void 0, void 0, void 0, function* () 
     };
     const result = yield ctx.telegram.sendPoll(chatId, question, options, extra);
     console.log(result);
-    // ctx.reply("sendPoll is not implemented yet");
 });
 // module.exports = sendPollHandler;
 exports.default = { sendPollHandler };

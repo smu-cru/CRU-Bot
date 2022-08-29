@@ -30,7 +30,7 @@ const UpdateStatus = (chatID, status) => __awaiter(void 0, void 0, void 0, funct
                 },
             },
         });
-        console.log(response);
+        // console.log(response);
     }
 });
 exports.default = UpdateStatus;
