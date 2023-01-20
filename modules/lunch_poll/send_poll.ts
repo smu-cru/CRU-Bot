@@ -3,7 +3,7 @@ import { Context } from "telegraf";
 const sendPollHandler = async (ctx: Context) => {
     const chatId = ctx.chat!.id;
     const question = "Lunch Today?"
-    const options = ["Yes, I'm cool like that", "No, I like to feel FOMO"];
+    const options = ["Yes, before 12pm", "Yes, after 12pm", "No, I like to feel FOMO"];
     const extra = {
         is_anonymous: false,
     }

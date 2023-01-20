@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const sendPollHandler = (ctx) => __awaiter(void 0, void 0, void 0, function* () {
     const chatId = ctx.chat.id;
     const question = "Lunch Today?";
-    const options = ["Yes, I'm cool like that", "No, I like to feel FOMO"];
+    const options = ["Yes, before 12pm", "Yes, after 12pm", "No, I like to feel FOMO"];
     const extra = {
         is_anonymous: false,
     };

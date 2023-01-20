@@ -24,7 +24,7 @@ class SchedulePoll {
         this.groups = [];
         this.pollOptions = {
             question: "Lunch Tomorrow?",
-            options: ["Yes, I'm cool like that", "Yes, can help me buy pls", "No, but I FOMO"],
+            options: ["Yes, before 12pm", "Yes, after 12pm", "No, but I FOMO"],
             extra: { is_anonymous: false }
         };
         this.UpdateGroups = () => __awaiter(this, void 0, void 0, function* () {
