@@ -27,7 +27,7 @@ GROUP_DATABASE_ID=
 - SSH into the cru bot instance on google cloud
 - Run `docker ps` to get the id of the currently running container, and `docker stop [id]` to stop it
 - Run `docker pull ongkahyuan/cru-bot` to pull the updated image
-- Run `docker run --env_file ./.env ongkahyuan/cru-bot`
+- Run `docker run --env-file ./.env ongkahyuan/cru-bot`
 ## Commands
 ````
 register_group - Registers a group, requires a CRON formatted schedule
