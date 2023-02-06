@@ -6,8 +6,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const create_email_1 = __importDefault(require("./modules/notion_utils/create_email"));
+const passport_1 = __importDefault(require("passport"));
+const dotenv = require("dotenv");
+const jwt = require('jsonwebtoken');
+require('./modules/auth/auth');
+dotenv.config();
+const secret = process.env.TOKEN_SECRET;
 const app = (0, express_1.default)();
 app.use(body_parser_1.default.json());
+const routes = require('./modules/routes/login');
+const secureRoute = require('./modules/routes/dashboard');
+app.use(body_parser_1.default.urlencoded({ extended: false }));
+app.use('/', routes);
+// Plug in the JWT strategy as a middleware so only verified users can access this route.
+app.use('/user', passport_1.default.authenticate('jwt', { session: false }), secureRoute);
+// Handle errors.
+// app.use(function (err:Error, req:Request, res:Response, next:NextFunction) {
+//     res.status(err.status || 500);
+//     res.json({ error: err });
+// });
 app.post("/incoming_mails/", (req, res) => {
     const mail = req.body;
     const byteReadSize = Math.round(req.socket.bytesRead / 1024);
