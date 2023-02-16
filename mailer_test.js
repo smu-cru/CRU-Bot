@@ -7,7 +7,7 @@ const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const create_email_1 = __importDefault(require("./modules/notion_utils/create_email"));
 const app = (0, express_1.default)();
-app.use(body_parser_1.default.json());
+app.use(body_parser_1.default.json({ limit: '50mb' }));
 app.post("/incoming_mails/", (req, res) => {
     const mail = req.body;
     const byteReadSize = Math.round(req.socket.bytesRead / 1024);
