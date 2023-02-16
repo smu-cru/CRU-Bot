@@ -6,7 +6,7 @@ import CreateEmail from "./modules/notion_utils/create_email";
 
 const app = express();
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '50mb' }));
 
 app.post("/incoming_mails/", (req, res) => {
     const mail = <IncomingMail>req.body;
